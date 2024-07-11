@@ -9,7 +9,7 @@ const MongoConnect = async () => {
   console.log("🛢️  MONGODB | connecting to", connectionString);
   try {
     await client.connect();
-    const database = client.db("myProject");
+    const database = client.db("Sigma");
     db = database;
     console.log("🛢️  MONGODB | connected to MongoDB");
 
@@ -28,6 +28,7 @@ const MongoClose = async () => {
     await client.close();
   } catch (error) {
     console.log("🛢️  MONGODB | failed to close connection to MongoDB");
+    // @ts-ignore
     console.error(err);
   }
 };
