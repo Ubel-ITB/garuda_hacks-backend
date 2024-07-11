@@ -9,7 +9,7 @@ const MongoConnect = async () => {
   console.log("🛢️  MONGODB | connecting to", connectionString);
   try {
     await client.connect();
-    const database = client.db("myProject");
+    const database = client.db("Sigma");
     db = database;
     console.log("🛢️  MONGODB | connected to MongoDB");
 

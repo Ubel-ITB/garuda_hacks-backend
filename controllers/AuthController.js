@@ -10,11 +10,14 @@ class AuthController {
       const { username, password } = req.body;
 
       const existingUser = await User.findOne({ username });
-      if (!isStringRelevant(password, existingUser.password)) {
+      if (!existingUser || !isStringRelevant(password, existingUser.password)) {
         throw new CustomError(403, "Wrong username or password");
       }
 
-      res.status(200).json(getToken(existingUser));
+      res.status(200).json({
+        token: getToken(existingUser),
+        user: { username, displayName: existingUser.displayName, role: existingUser.role, _id: existingUser._id },
+      });
     } catch (error) {
       next(error);
     }
@@ -23,11 +26,22 @@ class AuthController {
   static async signUp(req, res, next) {
     try {
       const { username, password, displayName, role } = req.body;
-      const { insertedId } = await User.create({ username, password: getHashedString(password), displayName, role });
 
+      const existedUser = await User.findOne({ username });
+      if (existedUser) throw new CustomError(400, "Username is taken");
+
+      const { insertedId } = await User.create({ username, password: getHashedString(password), displayName, role });
       const existingUser = await User.findOne({ _id: new ObjectId(insertedId) });
 
-      res.status(201).json(getToken(existingUser));
+      res.status(201).json({ token: getToken(existingUser), user: { username, displayName, role, _id: existingUser._id } });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async userInfo(req, res, next) {
+    try {
+      res.status(200).json(res.locals.user);
     } catch (error) {
       next(error);
     }
