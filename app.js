@@ -6,7 +6,7 @@ const port = 4000;
 const cors = require("cors");
 const { MongoConnect } = require("./config/MongoConnect");
 const router = require("./routes");
-const { errorHandler } = require("./middlewares/ErrorHandler");
+const { errorHandler } = require("./middlewares/Errorhandler");
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -22,7 +22,7 @@ app.use((req, res) => {
   try {
     await MongoConnect();
     app.listen(port, () => {
-      console.log(`Example app listening on port port`);
+      console.log(`Example app listening on port ${port}`);
     });
   } catch (error) {
     console.error("Failed to start app");
