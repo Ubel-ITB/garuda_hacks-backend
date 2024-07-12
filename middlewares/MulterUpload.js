@@ -20,7 +20,6 @@ const storage = multer.diskStorage({
       if (!fs.existsSync(gitignorePath)) {
         fs.writeFileSync(gitignorePath, "*\n!.gitignore");
       }
-
       cb(null, uploadPath);
     });
   },
