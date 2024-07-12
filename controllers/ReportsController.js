@@ -1,7 +1,5 @@
 const { ObjectId } = require("bson");
 const Report = require("../models/Report");
-const { getToken } = require("../helpers/jwt");
-const { getHashedString, isStringRelevant } = require("../helpers/bcrypt");
 const { CustomError } = require("../middlewares/Errorhandler");
 const User = require("../models/User");
 
@@ -128,12 +126,42 @@ class ReportsController {
 
       const existingReport = await Report.findOne({ _id: new ObjectId(_id) });
       if (!existingReport) {
-        throw new CustomError(403, "Forbidden2");
+        throw new CustomError(404, "Not Found");
       }
 
       const result = await Report.updateById(_id, { $inc: { totalshares: 1 } });
 
       res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async vote(req, res, next) {
+    try {
+      const { _id, voteAction } = req.params;
+      const UserId = res.locals.user._id;
+
+      const existingReport = await Report.findOne({ _id: new ObjectId(_id) });
+      if (!existingReport) {
+        throw new CustomError(404, "Not Found");
+      }
+
+      if (voteAction === "upVote") {
+        await Report.updateById(_id, {
+          $addToSet: { UpvotedUserIds: UserId },
+          $pull: { DownVotedUserIds: UserId },
+        });
+      } else if (voteAction === "downVote") {
+        await Report.updateById(_id, {
+          $addToSet: { DownVotedUserIds: UserId },
+          $pull: { UpvotedUserIds: UserId },
+        });
+      } else {
+        throw new CustomError(400, "Invalid vote action");
+      }
+
+      res.sendStatus(200);
     } catch (error) {
       next(error);
     }
