@@ -50,16 +50,17 @@ const initialSeeding = async () => {
 
   await createIfNotExists(
     Category,
-    { name: "Broken Lane" },
+    { name: "Potholes" },
     {
-      name: "Broken Lane",
+      name: "Potholes",
     }
   );
+
   await createIfNotExists(
     Category,
-    { name: "Dirty Place" },
+    { name: "Unclean Location" },
     {
-      name: "Dirty Place",
+      name: "Unclean Location",
     }
   );
 };
