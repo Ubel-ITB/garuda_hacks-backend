@@ -10,8 +10,7 @@ UploadsRouter.get("/:folderName/:fileName", (req, res) => {
 
 UploadsRouter.post("/:folderName/:fileName", MulterUpload.single("file"), (req, res) => {
   const { folderName } = req.params;
-  console.log(folderName);
-  const uploadedFilePath = `/uploads/${folderName}/${req?.file?.filename}`;
+  const uploadedFilePath = `/uploads/${folderName}/${req.file.filename}`;
   res.status(201).json({ url: process.env.BASE_URL + uploadedFilePath });
 });
 

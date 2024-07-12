@@ -2,8 +2,8 @@ const { ObjectId } = require("mongodb");
 const { getDatabase } = require("../config/MongoConnect");
 
 class User {
-  constructor({ _id, username, password, displayName, role }) {
-    Object.assign(this, { _id, username, password, displayName, role });
+  constructor({ _id, username, password, displayName, role, profilePicUrl }) {
+    Object.assign(this, { _id, username, password, displayName, role, profilePicUrl });
   }
 
   static async collection() {
@@ -22,9 +22,9 @@ class User {
     return myData;
   }
 
-  static async create({ username, password, displayName, role }) {
+  static async create({ username, password, displayName, role, profilePicUrl }) {
     const collection = await User.collection();
-    const result = await collection.insertOne({ username, password, displayName, role });
+    const result = await collection.insertOne({ username, password, displayName, role, profilePicUrl });
     return result;
   }
 
