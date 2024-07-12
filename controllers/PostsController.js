@@ -12,7 +12,7 @@ class PostsController {
         const author = await User.findOne({ _id: new ObjectId(post.AuthorId) });
         if (!author) continue;
         post.authorName = author.displayName;
-        post.authorProfilePictureUrl = author.profilePicUrl;
+        post.authorProfilePicUrl = author.profilePicUrl;
         const category = await PostCategory.findOne({ _id: new ObjectId(post.CategoryId) });
         if (!category) continue;
         post.categoryName = category.name;
@@ -31,7 +31,7 @@ class PostsController {
       const author = await User.findOne({ _id: new ObjectId(post.AuthorId) });
       if (author) {
         post.authorName = author.displayName;
-        post.authorProfilePictureUrl = author.profilePicUrl;
+        post.authorProfilePicUrl = author.profilePicUrl;
       }
       const category = await PostCategory.findOne({ _id: new ObjectId(post.CategoryId) });
       if (category) {
@@ -52,7 +52,7 @@ class PostsController {
         const author = await User.findOne({ _id: new ObjectId(post.AuthorId) });
         if (!author) continue;
         post.authorName = author.displayName;
-        post.authorProfilePictureUrl = author.profilePicUrl;
+        post.authorProfilePicUrl = author.profilePicUrl;
         const category = await PostCategory.findOne({ _id: new ObjectId(post.CategoryId) });
         if (!category) continue;
         post.categoryName = category.name;
