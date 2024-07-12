@@ -43,7 +43,7 @@ class CategoriesController {
 
       const result = await Category.updateById(_id, {
         $set: {
-          name: "Delete",
+          name: "Road Damage",
         },
       });
 

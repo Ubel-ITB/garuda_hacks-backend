@@ -17,7 +17,7 @@ class ReportsController {
   static async getMyReports(req, res, next) {
     try {
       const ReportUserId = res.locals.user._id;
-      const Data = await Report.findAll({ ReportUserId: new ObjectId(ReportUserId) });
+      const Data = await Report.findAll({ ReportUserId });
       res.status(200).json(Data);
     } catch (error) {
       next(error);
@@ -53,7 +53,7 @@ class ReportsController {
 
       const result = await Report.updateById(_id, {
         $set: {
-          CategoryId: "Science",
+          CategoryId: "668fede56d0f34b07730503b",
           lat: 50,
           lng: 50,
           imgUrl: "dopepic",
