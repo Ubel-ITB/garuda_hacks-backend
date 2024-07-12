@@ -12,8 +12,8 @@ const Authentication = async (req, res, next) => {
     const payload = getPayload(accessToken);
     if (!payload) throw new CustomError(403, "Please re-login");
 
-    const { _id, username, password } = payload;
-    if (!_id || !username || !password) throw new CustomError(403, "Please re-login");
+    const { _id, username, password, displayName, role } = payload;
+    if (!_id || !username || !password || !displayName || !role) throw new CustomError(403, "Please re-login");
 
     const existingUser = await User.findOne({ _id: new ObjectId(_id), username });
 
@@ -21,7 +21,7 @@ const Authentication = async (req, res, next) => {
       throw new CustomError(403, "Please re-login");
     }
 
-    res.locals.user = { _id, username };
+    res.locals.user = { _id, username, displayName, role };
     next();
   } catch (error) {
     if (error instanceof JsonWebTokenError) {
