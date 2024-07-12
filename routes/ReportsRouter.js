@@ -1,11 +1,12 @@
 const ReportsController = require("../controllers/ReportsController");
+const Authentication = require("../middlewares/Authentication");
 
 const ReportsRouter = require("express").Router();
 
 ReportsRouter.get("/", ReportsController.getAll);
-ReportsRouter.get("/mine", ReportsController.getOneByID);
-ReportsRouter.post("/", ReportsController.createReport);
-ReportsRouter.delete("/:_id", ReportsController.deleteReport);
-ReportsRouter.put("/:_id", ReportsController.updateReport);
+ReportsRouter.get("/mine", ReportsController.getMyReports);
+ReportsRouter.post("/", Authentication, ReportsController.createReport);
+ReportsRouter.delete("/:_id", Authentication, ReportsController.deleteReport);
+ReportsRouter.put("/:_id", Authentication, ReportsController.updateReport);
 
 module.exports = ReportsRouter;

@@ -14,11 +14,10 @@ class ReportsController {
     }
   }
 
-  static async getOneByID(req, res, next) {
+  static async getMyReports(req, res, next) {
     try {
-      //const ReportUserId = res.locals.user._id;
-      const ReportUserId = "668fda3a5f8a11fcb80e5984";
-      const Data = await Report.findOne({ ReportUserId: new ObjectId(ReportUserId) });
+      const ReportUserId = res.locals.user._id;
+      const Data = await Report.findAll({ ReportUserId: new ObjectId(ReportUserId) });
       res.status(200).json(Data);
     } catch (error) {
       next(error);
@@ -27,8 +26,7 @@ class ReportsController {
 
   static async createReport(req, res, next) {
     try {
-      //const reportUserId = res.locals.user._id;
-      const ReportUserId = new ObjectId();
+      const ReportUserId = res.locals.user._id;
       const { CategoryId, lat, lng, imgUrl, address, text } = req.body;
 
       const result = await Report.create({ ReportUserId, CategoryId, lat, lng, imgUrl, address, text });
