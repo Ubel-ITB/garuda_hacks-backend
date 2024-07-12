@@ -2,8 +2,8 @@ const { ObjectId } = require("mongodb");
 const { getDatabase } = require("../config/MongoConnect");
 
 class Report {
-  constructor({ _id, ReportUserId, CategoryId, lat, lng, imgUrl, address, text }) {
-    Object.assign(this, { _id, ReportUserId, CategoryId, lat, lng, imgUrl, address, text });
+  constructor({ _id, ReportUserId, CategoryId, lat, lng, imgUrl, address, text, totalshares }) {
+    Object.assign(this, { _id, ReportUserId, CategoryId, lat, lng, imgUrl, address, text, totalshares });
   }
 
   static async collection() {
@@ -22,9 +22,9 @@ class Report {
     return myData;
   }
 
-  static async create({ ReportUserId, CategoryId, lat, lng, imgUrl, address, text }) {
+  static async create({ ReportUserId, CategoryId, lat, lng, imgUrl, address, text, totalshares }) {
     const collection = await Report.collection();
-    const result = await collection.insertOne({ ReportUserId, CategoryId, lat, lng, imgUrl, address, text });
+    const result = await collection.insertOne({ ReportUserId, CategoryId, lat, lng, imgUrl, address, text, totalshares });
     return result;
   }
 
