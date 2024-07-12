@@ -4,6 +4,7 @@ const ReportsRouter = require("express").Router();
 
 ReportsRouter.get("/", ReportsController.getAll);
 ReportsRouter.get("/mine", ReportsController.getOneByID);
+ReportsRouter.get("/category", ReportsController.getOneByCategory);
 ReportsRouter.post("/", ReportsController.createReport);
 ReportsRouter.delete("/:_id", ReportsController.deleteReport);
 ReportsRouter.put("/:_id", ReportsController.updateReport);

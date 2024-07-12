@@ -18,7 +18,18 @@ class ReportsController {
     try {
       //const ReportUserId = res.locals.user._id;
       const ReportUserId = "668fda3a5f8a11fcb80e5984";
-      const Data = await Report.findOne({ ReportUserId: new ObjectId(ReportUserId) });
+      const Data = await Report.findAll({ ReportUserId: new ObjectId(ReportUserId) });
+      res.status(200).json(Data);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getOneByCategory(req, res, next) {
+    try {
+      //const CategoryId = req.body;
+      const CategoryId = "668fede56d0f34b07730503b";
+      const Data = await Report.findAll({ CategoryId });
       res.status(200).json(Data);
     } catch (error) {
       next(error);
@@ -55,7 +66,7 @@ class ReportsController {
 
       const result = await Report.updateById(_id, {
         $set: {
-          CategoryId: "Science",
+          CategoryId: "668fede56d0f34b07730503b",
           lat: 50,
           lng: 50,
           imgUrl: "dopepic",
