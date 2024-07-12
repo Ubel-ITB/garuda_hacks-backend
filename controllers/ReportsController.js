@@ -104,7 +104,7 @@ class ReportsController {
       }
 
       const existingReport = await Report.findOne({ _id: new ObjectId(_id) });
-      if (!existingReport || existingReport.status !== "On Progress") {
+      if (!existingReport) {
         throw new CustomError(403, "Forbidden2");
       }
 
@@ -115,6 +115,23 @@ class ReportsController {
           status,
         },
       });
+
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async updateShareCount(req, res, next) {
+    try {
+      const { _id } = req.params;
+
+      const existingReport = await Report.findOne({ _id: new ObjectId(_id) });
+      if (!existingReport) {
+        throw new CustomError(403, "Forbidden2");
+      }
+
+      const result = await Report.updateById(_id, { $inc: { totalshares: 1 } });
 
       res.status(200).json(result);
     } catch (error) {
