@@ -7,7 +7,7 @@ const fs = require("fs");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const { folderName } = req.params;
-    const uploadPath = path.join(__dirname, `../public/uploads/folderName/`);
+    const uploadPath = path.join(__dirname, `../public/uploads/${folderName}/`);
 
     // Check if the folder exists, and if not, create it
     fs.mkdir(uploadPath, { recursive: true }, (err) => {
