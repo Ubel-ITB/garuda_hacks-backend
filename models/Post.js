@@ -24,7 +24,13 @@ class Post {
 
   static async create({ AuthorId, CategoryId, title, content, imgUrl }) {
     const collection = await Post.collection();
-    const result = await collection.insertOne({ AuthorId, CategoryId, title, content, imgUrl });
+    const result = await collection.insertOne({
+      AuthorId,
+      CategoryId,
+      title,
+      content,
+      imgUrl,
+    });
     return result;
   }
 
