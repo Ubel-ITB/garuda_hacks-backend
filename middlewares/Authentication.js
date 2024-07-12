@@ -1,8 +1,8 @@
 const { ObjectId } = require("mongodb");
 const { getPayload } = require("../helpers/jwt");
 const User = require("../models/User");
-const { CustomError } = require("./ErrorHandler");
 const { JsonWebTokenError } = require("jsonwebtoken");
+const { CustomError } = require("./Errorhandler");
 
 const Authentication = async (req, res, next) => {
   try {

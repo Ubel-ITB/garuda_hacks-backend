@@ -3,6 +3,7 @@ const Report = require("../models/Report");
 const { getToken } = require("../helpers/jwt");
 const { getHashedString, isStringRelevant } = require("../helpers/bcrypt");
 const { CustomError } = require("../middlewares/Errorhandler");
+const User = require("../models/User");
 
 class ReportsController {
   static async getAll(req, res, next) {
@@ -61,25 +62,57 @@ class ReportsController {
     }
   }
 
-  static async updateReport(req, res, next) {
+  static async updateProgress(req, res, next) {
     try {
       const { _id } = req.params;
-      const { CategoryId, lat, lng, imgUrl, address, text, totalshares, status, progress, UpvotedUserIds, DownVotedUserIds } =
-        req.body;
+      const OfficerId = res.locals.user._id;
+
+      const existingUser = await User.findOne({ _id: new ObjectId(OfficerId) });
+      if (!existingUser || (existingUser.role !== "officer" && existingUser.role !== "admin"))
+        throw new CustomError(403, "Forbidden");
+
+      const { text, imgUrl } = req.body;
+      const status = "On Progress";
 
       const result = await Report.updateById(_id, {
         $set: {
-          CategoryId,
-          lat,
-          lng,
-          imgUrl,
-          address,
-          text,
-          totalshares,
           status,
-          progress,
-          UpvotedUserIds,
-          DownVotedUserIds,
+          progress: {
+            OfficerId,
+            text,
+            imgUrl,
+          },
+        },
+      });
+
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async updateProgressComplete(req, res, next) {
+    try {
+      const { _id } = req.params;
+      const OfficerId = res.locals.user._id;
+
+      const existingUser = await User.findOne({ _id: new ObjectId(OfficerId) });
+
+      if (!existingUser || (existingUser.role !== "officer" && existingUser.role !== "admin")) {
+        console.log(existingUser.role);
+        throw new CustomError(403, "Forbidden1");
+      }
+
+      const existingReport = await Report.findOne({ _id: new ObjectId(_id) });
+      if (!existingReport || existingReport.status !== "On Progress") {
+        throw new CustomError(403, "Forbidden2");
+      }
+
+      const status = "Finished";
+
+      const result = await Report.updateById(_id, {
+        $set: {
+          status,
         },
       });
 
