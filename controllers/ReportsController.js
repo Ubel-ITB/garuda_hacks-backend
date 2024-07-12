@@ -40,9 +40,9 @@ class ReportsController {
     try {
       //const reportUserId = res.locals.user._id;
       const ReportUserId = new ObjectId();
-      const { CategoryId, lat, lng, imgUrl, address, text } = req.body;
+      const { CategoryId, lat, lng, imgUrl, address, text, totalshares } = req.body;
 
-      const result = await Report.create({ ReportUserId, CategoryId, lat, lng, imgUrl, address, text });
+      const result = await Report.create({ ReportUserId, CategoryId, lat, lng, imgUrl, address, text, totalshares });
       res.status(200).json(result);
     } catch (error) {
       next(error);
