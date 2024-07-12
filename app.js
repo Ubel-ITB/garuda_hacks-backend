@@ -6,10 +6,10 @@ const port = 4000;
 const cors = require("cors");
 const { MongoConnect } = require("./config/MongoConnect");
 const router = require("./routes");
-const { errorHandler } = require("./middlewares/Errorhandler");
 const User = require("./models/User");
 const { getHashedString } = require("./helpers/bcrypt");
 const Category = require("./models/Category");
+const { errorHandler } = require("./middlewares/Errorhandler");
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));

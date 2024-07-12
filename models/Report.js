@@ -2,8 +2,36 @@ const { ObjectId } = require("mongodb");
 const { getDatabase } = require("../config/MongoConnect");
 
 class Report {
-  constructor({ _id, ReportUserId, CategoryId, lat, lng, imgUrl, address, text, totalshares }) {
-    Object.assign(this, { _id, ReportUserId, CategoryId, lat, lng, imgUrl, address, text, totalshares });
+  constructor({
+    _id,
+    ReportUserId,
+    CategoryId,
+    lat,
+    lng,
+    imgUrl,
+    address,
+    text,
+    totalshares,
+    status,
+    progress,
+    UpvotedUserIds,
+    DownVotedUserIds,
+  }) {
+    Object.assign(this, {
+      _id,
+      ReportUserId,
+      CategoryId,
+      lat,
+      lng,
+      imgUrl,
+      address,
+      text,
+      totalshares,
+      status,
+      progress,
+      UpvotedUserIds,
+      DownVotedUserIds,
+    });
   }
 
   static async collection() {
@@ -22,9 +50,39 @@ class Report {
     return myData;
   }
 
-  static async create({ ReportUserId, CategoryId, lat, lng, imgUrl, address, text, totalshares }) {
+  static async create({
+    ReportUserId,
+    CategoryId,
+    lat,
+    lng,
+    imgUrl,
+    address,
+    text,
+    totalshares = 0,
+    status = "Reported",
+    progress = {
+      officerId: "",
+      text: "",
+      imgUrl: "",
+    },
+    UpvotedUserIds = [],
+    DownVotedUserIds = [],
+  }) {
     const collection = await Report.collection();
-    const result = await collection.insertOne({ ReportUserId, CategoryId, lat, lng, imgUrl, address, text, totalshares });
+    const result = await collection.insertOne({
+      ReportUserId,
+      CategoryId,
+      lat,
+      lng,
+      imgUrl,
+      address,
+      text,
+      totalshares,
+      status,
+      progress,
+      UpvotedUserIds,
+      DownVotedUserIds,
+    });
     return result;
   }
 

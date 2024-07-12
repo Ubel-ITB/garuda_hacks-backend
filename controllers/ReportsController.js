@@ -27,9 +27,23 @@ class ReportsController {
   static async createReport(req, res, next) {
     try {
       const ReportUserId = res.locals.user._id;
-      const { CategoryId, lat, lng, imgUrl, address, text, totalshares } = req.body;
+      const { CategoryId, lat, lng, imgUrl, address, text, totalshares, status, progress, UpvotedUserIds, DownVotedUserIds } =
+        req.body;
 
-      const result = await Report.create({ ReportUserId, CategoryId, lat, lng, imgUrl, address, text, totalshares });
+      const result = await Report.create({
+        ReportUserId,
+        CategoryId,
+        lat,
+        lng,
+        imgUrl,
+        address,
+        text,
+        totalshares,
+        status,
+        progress,
+        UpvotedUserIds,
+        DownVotedUserIds,
+      });
       res.status(200).json(result);
     } catch (error) {
       next(error);
@@ -50,15 +64,22 @@ class ReportsController {
   static async updateReport(req, res, next) {
     try {
       const { _id } = req.params;
+      const { CategoryId, lat, lng, imgUrl, address, text, totalshares, status, progress, UpvotedUserIds, DownVotedUserIds } =
+        req.body;
 
       const result = await Report.updateById(_id, {
         $set: {
-          CategoryId: "668fede56d0f34b07730503b",
-          lat: 50,
-          lng: 50,
-          imgUrl: "dopepic",
-          address: "Jl. Skibidi",
-          text: "Great Job!",
+          CategoryId,
+          lat,
+          lng,
+          imgUrl,
+          address,
+          text,
+          totalshares,
+          status,
+          progress,
+          UpvotedUserIds,
+          DownVotedUserIds,
         },
       });
 
@@ -68,4 +89,5 @@ class ReportsController {
     }
   }
 }
+
 module.exports = ReportsController;
