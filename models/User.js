@@ -22,7 +22,7 @@ class User {
     return myData;
   }
 
-  static async create({ username, password, displayName, role = "citizen", profilePicUrl }) {
+  static async create({ username, password, displayName, role = "citizen", profilePicUrl = "" }) {
     const collection = await User.collection();
     const result = await collection.insertOne({ username, password, displayName, role, profilePicUrl });
     return result;

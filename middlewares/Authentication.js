@@ -13,7 +13,7 @@ const Authentication = async (req, res, next) => {
     if (!payload) throw new CustomError(403, "Please re-login");
 
     const { _id, username, password, displayName, role } = payload;
-    if (!_id || !username || !password || !displayName || !role) throw new CustomError(403, "Please re-login");
+    if (!_id || !username || !password || !role) throw new CustomError(403, "Please re-login");
 
     const existingUser = await User.findOne({ _id: new ObjectId(_id), username });
 

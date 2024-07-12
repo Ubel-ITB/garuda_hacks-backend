@@ -6,9 +6,9 @@ const port = 4000;
 const cors = require("cors");
 const { MongoConnect } = require("./config/MongoConnect");
 const router = require("./routes");
-const { errorHandler } = require("./middlewares/Errorhandler");
 const User = require("./models/User");
 const { getHashedString } = require("./helpers/bcrypt");
+const { errorHandler } = require("./middlewares/ErrorHandler");
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -26,15 +26,15 @@ app.use((req, res) => {
 
     const existingAdmin = await User.findOne({ username: "superadmin" });
     if (!existingAdmin) {
-      await User.create({ username: "superadmin", password: getHashedString("123"), role: "admin" });
+      await User.create({ username: "superadmin", password: getHashedString("123"), role: "admin", displayName: "superadmin" });
     }
     const existingOfficer = await User.findOne({ username: "officer" });
     if (!existingOfficer) {
-      await User.create({ username: "officer", password: getHashedString("123"), role: "officer" });
+      await User.create({ username: "officer", password: getHashedString("123"), role: "officer", displayName: "officer" });
     }
     const existingPublisher = await User.findOne({ username: "publisher" });
     if (!existingPublisher) {
-      await User.create({ username: "publisher", password: getHashedString("123"), role: "publisher" });
+      await User.create({ username: "publisher", password: getHashedString("123"), role: "publisher", displayName: "publisher" });
     }
 
     app.listen(port, () => {
